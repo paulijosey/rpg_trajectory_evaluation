@@ -98,12 +98,9 @@ def plot_mem_over_time_all(fig, mem_usages, proc_names, data_colors, data_labels
     for proc_idx in range(len(proc_names[0])-1):
         # create a new subplot
         idx = 0
-        ax = fig.add_subplot(3,3,proc_idx+1)
+        ax = fig.add_subplot(3,3,proc_idx+1, xlabel="Time [s]", ylabel="MEM Usage [\%]")
+        ax.title.set_text(proc_names[0][proc_idx + 1])
         for idx in range(len(mem_usages)):
-            # print("timestamps: ", mem_usages[idx][:,0])
-            # print("mem_usage: ", mem_usages[idx][:,proc_idx+1])
-            # print("color: ", data_colors[idx])
-            # print("name: ", data_labels[idx])
             plot_mem_over_time(ax, mem_usages[idx][:,0], mem_usages[idx][:,proc_idx+1], data_colors[idx], data_labels[idx])
             idx += 1
         proc_idx += 1
