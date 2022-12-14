@@ -110,6 +110,9 @@ def plot_mem_over_time_all(fig, mem_usages, proc_names, data_colors, data_labels
 
  
 def plot_mem_over_time(ax, timestamps, mem_usage, color, name, alpha=1.0):
+    # substract first timestamp from all times to get relative time
+    time_start = timestamps[0]
+    timestamps = [(time - time_start)/pow(10,9) for time in timestamps]
     ax.plot(timestamps, mem_usage, color=color, linestyle='-', alpha=alpha, label=name)
 
 def plot_trajectory_top(ax, pos, color, name, alpha=1.0):
