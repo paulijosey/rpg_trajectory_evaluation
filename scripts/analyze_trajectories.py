@@ -99,7 +99,7 @@ def plot_odometry_error_per_dataset(dataset_rel_err, dataset_names, algorithm_na
             config_labels.append(plot_settings['algo_labels'][v])
             config_colors.append(plot_settings['algo_colors'][v])
 
-        fig = plt.figure(figsize=(12, 3))
+        fig = plt.figure(figsize=(9.9, 3.3))
         ax = fig.add_subplot(
             121, xlabel='Distance traveled [m]',
             ylabel='Translation error [\%]')
@@ -114,7 +114,7 @@ def plot_odometry_error_per_dataset(dataset_rel_err, dataset_names, algorithm_na
                     '_trans_rot_error'+FORMAT, bbox_inches="tight", dpi=args.dpi)
         plt.close(fig)
         # plot absolute errors too
-        fig = plt.figure(figsize=(12, 3))
+        fig = plt.figure(figsize=(9.9, 3.3))
         ax = fig.add_subplot(
             121, xlabel='Distance traveled [m]',
             ylabel='Translation error [m]')
@@ -206,7 +206,7 @@ def plot_trajectories(dataset_trajectories_list, dataset_names, algorithm_names,
         print("Plotting {0}...".format(dataset_nm))
 
         # plot trajectory
-        fig = plt.figure(figsize=(6, 5.5))
+        fig = plt.figure(figsize=(3.3, 3.3))
         ax = fig.add_subplot(111, aspect='equal',
                              xlabel='x [m]', ylabel='y [m]')
         if dataset_nm in plot_settings['datasets_titles']:
@@ -214,7 +214,7 @@ def plot_trajectories(dataset_trajectories_list, dataset_names, algorithm_names,
 
         for alg in algorithm_names:
             if plot_traj_per_alg:
-                fig_i = plt.figure(figsize=(6, 5.5))
+                fig_i = plt.figure(figsize=(3.3, 3.3))
                 ax_i = fig_i.add_subplot(111, aspect='equal',
                                          xlabel='x [m]', ylabel='y [m]')
                 pu.plot_trajectory_top(ax_i, p_es_0[alg], 'b',
@@ -292,9 +292,9 @@ def plot_cpu(dataset_trajectories_list, dataset_names, algorithm_names,
             labels.append(plot_settings['algo_labels'][alg])
 
         # plot cpu usage
-        fig = plt.figure(figsize=(12, 3))
+        fig = plt.figure(figsize=(6.6, 3.3))
         ax = fig.add_subplot(
-            111, xlabel='System Processes', ylabel="CPU Usage [\%]")
+            111, ylabel="CPU Usage [\%]")
         # if dataset_nm in plot_settings['datasets_titles']:
         #     ax.set_title(plot_settings['datasets_titles'][dataset_nm])
 
@@ -330,7 +330,7 @@ def plot_mem(dataset_trajectories_list, dataset_names, algorithm_names,
             labels.append(plot_settings['algo_labels'][alg])
 
         # # plot mem usage
-        fig = plt.figure(figsize=(12, 3))
+        fig = plt.figure(figsize=(9.9, 3.3))
 
         pu.plot_mem_over_time_all(fig, mem_usage, proc_names, colors, labels)
 
@@ -420,7 +420,7 @@ def plot_overall_odometry_errors(odo_err_col, algorithm_names, rel_e_distances,
         for alg in algorithm_names:
             errors.append([cur_err[alg][d] for d in distances])
 
-        fig = plt.figure(figsize=(12, 3))
+        fig = plt.figure(figsize=(6.6, 3.3))
         ax = fig.add_subplot(
             111, xlabel='Distance traveled [m]', ylabel=ylabel)
         pu.boxplot_compare(ax, distances, errors,
