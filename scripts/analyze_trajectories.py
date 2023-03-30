@@ -30,7 +30,14 @@ def spec(N):
     t = np.linspace(-510, 510, N)
     return np.round(np.clip(np.stack([-t, 510-np.abs(t), t], axis=1), 0, 255)).astype("float32")/255
 
-PALLETE = spec(8)
+# PALLETE = spec(8)
+PALLETE = [
+    [1, 0,  0],
+    [0, 1,  0],
+    [0, 0,  1],
+    [0, 0.5,  0.5],
+    [0, 0,  0],
+]
 
 
 def collect_odometry_error_per_dataset(dataset_multierror_list,
@@ -99,7 +106,7 @@ def plot_odometry_error_per_dataset(dataset_rel_err, dataset_names, algorithm_na
             config_labels.append(plot_settings['algo_labels'][v])
             config_colors.append(plot_settings['algo_colors'][v])
 
-        fig = plt.figure(figsize=(9.9, 3.3))
+        fig = plt.figure(figsize=(9.9, 2.8))
         ax = fig.add_subplot(
             121, xlabel='Distance traveled [m]',
             ylabel='Translation error [\%]')
@@ -292,7 +299,7 @@ def plot_cpu(dataset_trajectories_list, dataset_names, algorithm_names,
             labels.append(plot_settings['algo_labels'][alg])
 
         # plot cpu usage
-        fig = plt.figure(figsize=(6.6, 3.3))
+        fig = plt.figure(figsize=(6.6, 3))
         ax = fig.add_subplot(
             111, ylabel="CPU Usage [\%]")
         # if dataset_nm in plot_settings['datasets_titles']:
@@ -330,7 +337,7 @@ def plot_mem(dataset_trajectories_list, dataset_names, algorithm_names,
             labels.append(plot_settings['algo_labels'][alg])
 
         # # plot mem usage
-        fig = plt.figure(figsize=(9.9, 3.3))
+        fig = plt.figure(figsize=(9.9, 4.2))
 
         pu.plot_mem_over_time_all(fig, mem_usage, proc_names, colors, labels)
 
@@ -575,8 +582,10 @@ if __name__ == '__main__':
         os.makedirs(cur_res_dir)
         datasets_res_dir[d] = cur_res_dir
     same_subtraj = True if rel_e_distances else False
-    assert len(PALLETE) > len(algorithms),\
-        "Not enough colors for all configurations"
+    if len(PALLETE) > len(algorithms):
+        print("Not enough colors for all configurations ... generating more ...")
+        PALLETE=spec(len(algorithms))
+
     algo_colors = {}
     for i in range(len(algorithms)):
         algo_colors[algorithms[i]] = PALLETE[i]
