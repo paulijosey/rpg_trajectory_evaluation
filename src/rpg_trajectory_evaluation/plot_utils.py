@@ -155,8 +155,35 @@ def plot_mem_over_time(ax, timestamps, mem_usage, color, name, alpha=1.0):
 
 def plot_trajectory_top(ax, pos, color, name, alpha=1.0):
     ax.grid(ls='--', color='0.7')
-    # pos_0 = pos - pos[0, :]
+
     ax.plot(pos[:, 0], pos[:, 1], color, linestyle='-', alpha=alpha, label=name)
+
+    if(name=='Groundtruth'):
+        pos_size = len(pos)
+        arrow0_location = round(pos_size/7 * 4)
+        arrow1_location = round(pos_size/7 * 5)
+        arrow2_location = round(pos_size/7 * 6)
+        arrow0 = [pos[arrow0_location, 0], pos[arrow0_location, 1], pos[arrow0_location+1, 0]-pos[arrow0_location, 0], pos[arrow0_location+1, 1]-pos[arrow0_location, 1]]
+        arrow1 = [pos[arrow1_location, 0], pos[arrow1_location, 1], pos[arrow1_location+1, 0]-pos[arrow1_location, 0], pos[arrow1_location+1, 1]-pos[arrow1_location, 1]]
+        arrow2 = [pos[arrow2_location, 0], pos[arrow2_location, 1], pos[arrow2_location+1, 0]-pos[arrow2_location, 0], pos[arrow2_location+1, 1]-pos[arrow2_location, 1]]
+        arrows = [arrow0, arrow1, arrow2]
+        # normalize
+        for arrow in arrows:
+            r = np.power(np.add(np.power(arrow[2],2), np.power(arrow[3],2)),0.5)
+            arrow[2] = arrow[2]/r
+            arrow[3] = arrow[3]/r
+        scale = 14
+        width = 0.05
+        headwidth = 4
+        ax.quiver(arrow0[0], arrow0[1],arrow0[2],arrow0[3],
+                    angles='xy', color=color, linestyle='-', 
+                    alpha=alpha, label=name, headwidth=headwidth, width=width, scale=scale, minlength=0)
+        ax.quiver(arrow1[0], arrow1[1],arrow1[2],arrow1[3],
+                    angles='xy', color=color, linestyle='-', 
+                    alpha=alpha, label=name, headwidth=headwidth, width=width, scale=scale, minlength=0)
+        ax.quiver(arrow2[0], arrow2[1],arrow2[2],arrow2[3],
+                    angles='xy', color=color, linestyle='-', 
+                    alpha=alpha, label=name, headwidth=headwidth, width=width, scale=scale, minlength=0)
 
 
 def plot_trajectory_side(ax, pos, color, name, alpha=1.0):
