@@ -33,10 +33,10 @@ def spec(N):
 # PALLETE = spec(8)
 PALLETE = [
     [1, 0,  0],
-    [0, 1,  0],
     [0, 0,  1],
-    [0, 0.5,  0.5],
+    [0, 0.5,  0],
     [0, 0,  0],
+    [0, 0.5,  0.5],
 ]
 
 
@@ -301,7 +301,7 @@ def plot_cpu(dataset_trajectories_list, dataset_names, algorithm_names,
         # plot cpu usage
         fig = plt.figure(figsize=(6.6, 3))
         ax = fig.add_subplot(
-            111, ylabel="CPU Usage [\%]")
+            111, xlabel="System Processes", ylabel="CPU Usage [\%]")
         # if dataset_nm in plot_settings['datasets_titles']:
         #     ax.set_title(plot_settings['datasets_titles'][dataset_nm])
 
@@ -582,7 +582,7 @@ if __name__ == '__main__':
         os.makedirs(cur_res_dir)
         datasets_res_dir[d] = cur_res_dir
     same_subtraj = True if rel_e_distances else False
-    if len(PALLETE) > len(algorithms):
+    if len(PALLETE) < len(algorithms):
         print("Not enough colors for all configurations ... generating more ...")
         PALLETE=spec(len(algorithms))
 
