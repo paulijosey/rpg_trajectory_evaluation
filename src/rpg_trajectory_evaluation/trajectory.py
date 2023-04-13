@@ -144,7 +144,7 @@ class Trajectory:
             traj_loading.load_raw_groundtruth(self.gt_dir, nm_gt,
                                               start_t_sec=self.start_time_sec,
                                               end_t_sec=self.end_time_sec)
-        self.freq = traj_loading.load_freq(self.data_dir, nm_timestamps)
+        self.freq, self.timestamps_es = traj_loading.load_freq(self.data_dir, nm_timestamps)
 
         if self.p_es.size == 0:
             print(Fore.RED+"Empty estimate file.")
