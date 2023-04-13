@@ -10,6 +10,8 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
+import matplotlib.patches as mpatches
+from matplotlib.lines import Line2D
 from colorama import init, Fore
 
 import add_path
@@ -251,34 +253,34 @@ def plot_trajectories(dataset_trajectories_list, dataset_names, algorithm_names,
         plt.close(fig)
 
         # plot trajectory (without alignment)
-        # fig = plt.figure(figsize=(3.3, 3.3))
-        # ax = fig.add_subplot(111, aspect='equal',
-        #                      xlabel='x [m]', ylabel='y [m]')
-        # if dataset_nm in plot_settings['datasets_titles']:
-        #     ax.set_title(plot_settings['datasets_titles'][dataset_nm])
+        fig = plt.figure(figsize=(3.3, 3.3))
+        ax = fig.add_subplot(111, aspect='equal',
+                             xlabel='x [m]', ylabel='y [m]')
+        if dataset_nm in plot_settings['datasets_titles']:
+            ax.set_title(plot_settings['datasets_titles'][dataset_nm])
 
-        # for alg in algorithm_names:
-        #     if plot_traj_per_alg:
-        #         fig_i = plt.figure(figsize=(3.3, 3.3))
-        #         ax_i = fig_i.add_subplot(111, aspect='equal',
-        #                                  xlabel='x [m]', ylabel='y [m]')
-        #         pu.plot_trajectory_top(ax_i, p_es_0_not_aligned[alg], 'b',
-        #                                plot_settings['algo_labels'][alg], 0.5)
-        #         #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-        #         fig_i.tight_layout()
-        #         fig_i.savefig(output_dir+'/' + dataset_nm + '_trajectory_top_not_aligned' +
-        #                       plot_settings['algo_labels'][alg] + FORMAT,
-        #                       bbox_inches="tight", dpi=args.dpi)
-        #         plt.close(fig_i)
+        for alg in algorithm_names:
+            if plot_traj_per_alg:
+                fig_i = plt.figure(figsize=(3.3, 3.3))
+                ax_i = fig_i.add_subplot(111, aspect='equal',
+                                         xlabel='x [m]', ylabel='y [m]')
+                pu.plot_trajectory_top(ax_i, p_es_0_not_aligned[alg], 'b',
+                                       plot_settings['algo_labels'][alg], 0.5)
+                #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+                fig_i.tight_layout()
+                fig_i.savefig(output_dir+'/' + dataset_nm + '_trajectory_top_not_aligned' +
+                              plot_settings['algo_labels'][alg] + FORMAT,
+                              bbox_inches="tight", dpi=args.dpi)
+                plt.close(fig_i)
 
-        #     pu.plot_trajectory_top(ax, p_es_0_not_aligned[alg],
-        #                            pu.convert_rgb_to_names(plot_settings['algo_colors'][alg]),
-        #                            plot_settings['algo_labels'][alg])
-        # plt.sca(ax)
-        # fig.tight_layout()
-        # fig.savefig(output_dir+'/' + dataset_nm +
-        #             '_trajectory_top_not_aligned'+FORMAT, bbox_inches="tight", dpi=args.dpi)
-        # plt.close(fig)
+            pu.plot_trajectory_top(ax, p_es_0_not_aligned[alg],
+                                   pu.convert_rgb_to_names(plot_settings['algo_colors'][alg]),
+                                   plot_settings['algo_labels'][alg])
+        plt.sca(ax)
+        fig.tight_layout()
+        fig.savefig(output_dir+'/' + dataset_nm +
+                    '_trajectory_top_not_aligned'+FORMAT, bbox_inches="tight", dpi=args.dpi)
+        plt.close(fig)
         # plot trajectory side
         if not plot_side:
             continue
@@ -373,7 +375,15 @@ def plot_mem(dataset_trajectories_list, dataset_names, algorithm_names,
 
         pu.plot_mem_over_time_all(fig, mem_usage, proc_names, colors, labels)
 
-        plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+        # where some data has already been plotted to ax
+        handles, labels = plt.gca().get_legend_handles_labels()
+        # manually define a new patch  'm', 'Groundtruth'
+        line = Line2D([0], [0], label='Groundtruth', color='m')
+        # handles is a list, so append manual patch
+        handles.append(line) 
+
+        # plot the legend
+        plt.legend(handles=handles, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         fig.savefig(output_dir+'/'+dataset_nm +
                     '_mem_usage'+FORMAT, bbox_inches="tight", dpi=args.dpi)
         plt.close(fig)
@@ -495,7 +505,8 @@ def parse_config_file(config_fn, sort_names):
 
     algorithms = d['Algorithms'].keys()
     if sort_names:
-        algorithms = sorted(algorithms)
+        algorithms = sorted(algorithms, key=lambda a: a[1])
+    print(algorithms)
     alg_labels = {}
     alg_fn = {}
     for v in algorithms:
