@@ -262,3 +262,12 @@ def boxplot_compare_freq(ax,
        for i, j in enumerate(leg.legendHandles):
             j.set_color(data_colors[i])
     map(lambda x: x.set_visible(False), leg_handles)
+
+def plot_freq_over_time(ax, timestamps, freqs, data_labels, data_colors, alpha=1.0):
+    # substract first timestamp from all times to get relative time
+    for idx in range(len(freqs)):
+        time_start = timestamps[idx][0]
+        timestamps_new = [(time - time_start)/pow(10,9) for time in timestamps[idx]]
+        ax.plot(timestamps_new[1:], freqs[idx], color=data_colors[idx], linestyle='-', alpha=alpha, label=data_labels[idx])
+    
+    ax.grid(axis = 'y', linestyle = '--', linewidth = 0.5)

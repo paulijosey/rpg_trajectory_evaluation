@@ -23,6 +23,7 @@ def load_estimate_and_associate(fn_gt,
         print(Fore.YELLOW +
               "Loaded exsiting matching results {0}.".format(fn_matches))
     else:
+
         # matches = associ.read_files_and_associate(fn_es, fn_gt,  -10.48*10e9, 2*10e9)
         matches = associ.read_files_and_associate(fn_es, fn_gt, 0.0, max_diff)
         np.savetxt(fn_matches, np.array(matches, dtype=int), fmt='%d')
@@ -133,5 +134,5 @@ def load_freq(results_dir, nm_timestamps):
             continue
         freq_es.append(10e8*(1/(time_es[es_id] - time_es[es_id-1])))
 
-    return freq_es
+    return freq_es, time_es
 

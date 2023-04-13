@@ -385,8 +385,10 @@ def plot_freq(dataset_trajectories_list, dataset_names, algorithm_names,
         output_dir = datasets_out_dir[dataset_nm]
         dataset_trajs = dataset_trajectories_list[dataset_idx]
         freq = []
+        timestamps = []
         for traj in dataset_trajs:
             freq.append(traj[0].freq)
+            timestamps.append(traj[0].timestamps_es)
 
         print("Plotting {0}...".format(dataset_nm))
 
@@ -396,14 +398,21 @@ def plot_freq(dataset_trajectories_list, dataset_names, algorithm_names,
             colors.append(plot_settings['algo_colors'][alg])
             labels.append(plot_settings['algo_labels'][alg])
 
-        # plot cpu usage
-        fig = plt.figure(figsize=(2, 2))
-        ax = fig.add_subplot(
-            111, xlabel='', ylabel="Frequency [Hz]")
+        # plot freq (boxplot)
+        fig, ax = plt.subplots(1, 2, gridspec_kw={'width_ratios': [1, 4]})
+        # ax = fig.add_subplot(
+        #     121, xlabel='', ylabel="Frequency [Hz]")
 
-        pu.boxplot_compare_freq(ax, freq,
+        pu.boxplot_compare_freq(ax[0], freq,
                             labels, colors, legend=False)
+        ax[0].set_ylabel("Frequency [Hz]", fontsize=18)
 
+        # ax = fig.add_subplot(
+        #     122, xlabel='Time [s]', ylabel="Frequency [Hz]")
+
+        pu.plot_freq_over_time(ax[1], timestamps, freq,
+                            labels, colors)
+        ax[1].set_xlabel("Time [s]", fontsize=18)
         # plt.sca(ax)
         # plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         fig.tight_layout()
