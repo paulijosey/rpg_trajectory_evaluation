@@ -134,7 +134,7 @@ class Trajectory:
         print(Fore.RED+'Loading trajectory data...')
 
         # only timestamped pose series is supported
-        self.t_es, self.p_es, self.q_es, self.t_gt, self.p_gt, self.q_gt =\
+        self.t_es, self.p_es, self.q_es, self.t_gt, self.p_gt, self.q_gt, self.p_es_all =\
             traj_loading.load_stamped_dataset(
                 self.data_dir, self.gt_dir, nm_gt, nm_est,
                 os.path.join(Trajectory.saved_res_dir_nm, self.est_type,

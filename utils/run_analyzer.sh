@@ -6,7 +6,9 @@ function main
     local CONF_YAML=~/git/eth/paul-joseph/Data/Testing_Configs/euroc_test.yaml
     local OUT_DIR="./results/euroc_test"
     local RESULTS_DIR="/home/paul/git/eth/paul-joseph/Data/Testing/EuRoC/"
+    # local RESULTS_DIR="/home/paul/git/eth/paul-joseph/Data/Testing/OF_VICON/"
     local GT_DIR="/home/paul/git/eth/paul-joseph/Data/GroundTruth/EuRoC/"
+    # local GT_DIR="/home/paul/git/eth/paul-joseph/Data/GroundTruth/OF_VICON/"
 	local PLATFORM=desktop
 	local RECALC_ERRORS=0
 
