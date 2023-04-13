@@ -177,13 +177,13 @@ def plot_trajectory_top(ax, pos, color, name, alpha=1.0):
         headwidth = 4
         ax.quiver(arrow0[0], arrow0[1],arrow0[2],arrow0[3],
                     angles='xy', color=color, linestyle='-', 
-                    alpha=alpha, label=name, headwidth=headwidth, width=width, scale=scale, minlength=0)
+                    alpha=alpha, label='_nolegend_', headwidth=headwidth, width=width, scale=scale, minlength=0)
         ax.quiver(arrow1[0], arrow1[1],arrow1[2],arrow1[3],
                     angles='xy', color=color, linestyle='-', 
-                    alpha=alpha, label=name, headwidth=headwidth, width=width, scale=scale, minlength=0)
+                    alpha=alpha, label='_nolegend_', headwidth=headwidth, width=width, scale=scale, minlength=0)
         ax.quiver(arrow2[0], arrow2[1],arrow2[2],arrow2[3],
                     angles='xy', color=color, linestyle='-', 
-                    alpha=alpha, label=name, headwidth=headwidth, width=width, scale=scale, minlength=0)
+                    alpha=alpha, label='_nolegend_', headwidth=headwidth, width=width, scale=scale, minlength=0)
 
 
 def plot_trajectory_side(ax, pos, color, name, alpha=1.0):

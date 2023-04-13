@@ -9,6 +9,7 @@ function main
     local RESULTS_DIR="/home/paul/git/eth/paul-joseph/Data/Testing/OF_VICON/"
     # local GT_DIR="/home/paul/git/eth/paul-joseph/Data/GroundTruth/EuRoC/"
     local GT_DIR="/home/paul/git/eth/paul-joseph/Data/GroundTruth/OF_VICON/"
+
 	local PLATFORM=desktop
 	local RECALC_ERRORS=0
 

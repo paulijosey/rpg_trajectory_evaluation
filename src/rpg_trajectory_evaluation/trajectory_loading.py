@@ -23,8 +23,9 @@ def load_estimate_and_associate(fn_gt,
         print(Fore.YELLOW +
               "Loaded exsiting matching results {0}.".format(fn_matches))
     else:
-        # matches = associ.read_files_and_associate(fn_es, fn_gt, 0.0, max_diff)
-        matches = associ.read_files_and_associate(fn_es, fn_gt, -10.48*10e9, 1*10e9)
+
+        # matches = associ.read_files_and_associate(fn_es, fn_gt,  -10.48*10e9, 2*10e9)
+        matches = associ.read_files_and_associate(fn_es, fn_gt, 0.0, max_diff)
         np.savetxt(fn_matches, np.array(matches, dtype=int), fmt='%d')
         print(Fore.YELLOW +
               "Saved matching results to {0}.".format(fn_matches))
@@ -36,12 +37,14 @@ def load_estimate_and_associate(fn_gt,
     if data_gt is None:
         data_gt = np.loadtxt(fn_gt)
 
+    p_es_all = []
     p_es = []
     p_gt = []
     q_es = []
     q_gt = []
     t_gt = []
     for es_id, es in enumerate(data_es):
+        p_es_all.append(es[1:4])
         if es_id in dict_matches:
             gt = data_gt[dict_matches[es_id]]
             if gt[0] < start_t_sec or gt[0] > end_t_sec:
@@ -57,7 +60,9 @@ def load_estimate_and_associate(fn_gt,
     q_gt = np.array(q_gt)
     t_gt = np.array(t_gt)
 
-    return t_gt, p_es, q_es, t_gt, p_gt, q_gt
+    p_es_all = np.array(p_es_all)
+
+    return t_gt, p_es, q_es, t_gt, p_gt, q_gt, p_es_all
 
 
 def load_stamped_dataset(results_dir,

@@ -202,10 +202,12 @@ def plot_trajectories(dataset_trajectories_list, dataset_names, algorithm_names,
         output_dir = datasets_out_dir[dataset_nm]
         dataset_trajs = dataset_trajectories_list[dataset_idx]
         p_es_0 = {}
+        p_es_0_not_aligned = {}
         p_gt_raw = (dataset_trajs[0])[plot_idx].p_gt_raw
         p_gt_0 = {}
         for traj_list in dataset_trajs:
             p_es_0[traj_list[plot_idx].alg] = traj_list[plot_idx].p_es_aligned
+            p_es_0_not_aligned[traj_list[plot_idx].alg] = traj_list[plot_idx].p_es_all
             p_gt_0[traj_list[plot_idx].alg] = traj_list[plot_idx].p_gt
         print("Collected trajectories to plot: {0}".format(algorithm_names))
         assert sorted(algorithm_names) == sorted(list(p_es_0.keys()))
@@ -229,7 +231,7 @@ def plot_trajectories(dataset_trajectories_list, dataset_names, algorithm_names,
                 pu.plot_trajectory_top(ax_i, p_gt_0[alg], 'm', 'Groundtruth')
                 if plot_aligned:
                     pu.plot_aligned_top(ax_i, p_es_0[alg], p_gt_0[alg], -1)
-                #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+                # plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
                 fig_i.tight_layout()
                 fig_i.savefig(output_dir+'/' + dataset_nm + '_trajectory_top_' +
                               plot_settings['algo_labels'][alg] + FORMAT,
@@ -239,14 +241,44 @@ def plot_trajectories(dataset_trajectories_list, dataset_names, algorithm_names,
             pu.plot_trajectory_top(ax, p_es_0[alg],
                                    pu.convert_rgb_to_names(plot_settings['algo_colors'][alg]),
                                    plot_settings['algo_labels'][alg])
+
         plt.sca(ax)
         pu.plot_trajectory_top(ax, p_gt_raw, 'm', 'Groundtruth')
-        #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+        # plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         fig.tight_layout()
         fig.savefig(output_dir+'/' + dataset_nm +
                     '_trajectory_top'+FORMAT, bbox_inches="tight", dpi=args.dpi)
         plt.close(fig)
 
+        # plot trajectory (without alignment)
+        # fig = plt.figure(figsize=(3.3, 3.3))
+        # ax = fig.add_subplot(111, aspect='equal',
+        #                      xlabel='x [m]', ylabel='y [m]')
+        # if dataset_nm in plot_settings['datasets_titles']:
+        #     ax.set_title(plot_settings['datasets_titles'][dataset_nm])
+
+        # for alg in algorithm_names:
+        #     if plot_traj_per_alg:
+        #         fig_i = plt.figure(figsize=(3.3, 3.3))
+        #         ax_i = fig_i.add_subplot(111, aspect='equal',
+        #                                  xlabel='x [m]', ylabel='y [m]')
+        #         pu.plot_trajectory_top(ax_i, p_es_0_not_aligned[alg], 'b',
+        #                                plot_settings['algo_labels'][alg], 0.5)
+        #         #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+        #         fig_i.tight_layout()
+        #         fig_i.savefig(output_dir+'/' + dataset_nm + '_trajectory_top_not_aligned' +
+        #                       plot_settings['algo_labels'][alg] + FORMAT,
+        #                       bbox_inches="tight", dpi=args.dpi)
+        #         plt.close(fig_i)
+
+        #     pu.plot_trajectory_top(ax, p_es_0_not_aligned[alg],
+        #                            pu.convert_rgb_to_names(plot_settings['algo_colors'][alg]),
+        #                            plot_settings['algo_labels'][alg])
+        # plt.sca(ax)
+        # fig.tight_layout()
+        # fig.savefig(output_dir+'/' + dataset_nm +
+        #             '_trajectory_top_not_aligned'+FORMAT, bbox_inches="tight", dpi=args.dpi)
+        # plt.close(fig)
         # plot trajectory side
         if not plot_side:
             continue
